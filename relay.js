@@ -39,8 +39,14 @@ wss.on("connection", (ws) => {
 			const lobbyName = buffer.toString('utf8', offset, offset + strByteLen);
 			offset += strByteLen;
 
-			lobbies.set(ws, [maxPlayers, lobbyName])
-			console.log("Client " + ws + " created lobby " + lobbyName + " created.");
+			lobbies.set(ws, {})
+			lobbies.get(ws).maxPlayers = maxPlayers
+			lobbies.get(ws).players = new Set();
+			lobbies.get(ws).players.add(ws)
+			lobbies.get(ws).name = lobbyName
+			ws.joinedLobby = lobbies.get(ws);
+
+			console.log("Lobby " + lobbies.get(ws).name + " created.");
 		}
 		
     });
@@ -50,8 +56,13 @@ wss.on("connection", (ws) => {
 
 		if (lobbies.has(ws))
 		{
-			console.log("Clients " + ws + "'s lobby " + lobbies.get(ws)[1] + " has been deleted.");
+			console.log("Lobby " + lobbies.get(ws).name + " deleted.");
 			lobbies.delete(ws)
+		}
+		else if (ws.hasOwnProperty("joinedLobby"))
+		{
+			console.log("Lobby " + lobbies.get(ws).name + " left.");
+			lobbies.get(ws.joinedLobby).players.delete(ws);
 		}
     });
 });
