@@ -40,6 +40,7 @@ wss.on("connection", (ws) => {
 			offset += nameLength;
 
 			lobbies.set(ws, [maxPlayers, lobbyName])
+			console.log("Lobby " + lobbyName + " created.");
 		}
 		
     });
