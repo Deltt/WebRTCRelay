@@ -22,7 +22,7 @@ wss.on("connection", (ws) => {
 			return;
 		}
 
-		const buffer = message;
+		const buffer = msg;
 		let offset = 0;
 
 		const commandId = buffer.readInt32LE(offset);
