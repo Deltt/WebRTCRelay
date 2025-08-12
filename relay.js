@@ -33,11 +33,11 @@ wss.on("connection", (ws) => {
 			const maxPlayers = buffer.readInt32LE(offset);
 			offset += 4;
 
-			const nameLength = buffer.readInt32LE(offset);
+			const strByteLen = buffer.readInt32LE(offset);
 			offset += 4;
 
-			const lobbyName = buffer.toString('utf8', offset, offset + nameLength);
-			offset += nameLength;
+			const lobbyName = buffer.toString('utf8', offset, offset + strByteLen);
+			offset += strByteLen;
 
 			lobbies.set(ws, [maxPlayers, lobbyName])
 			console.log("Lobby " + lobbyName + " created.");
@@ -50,6 +50,7 @@ wss.on("connection", (ws) => {
 
 		if (lobbies.has(ws))
 		{
+			console.log("Lobby " + lobbies.has(ws)[1] + " deleted.");
 			lobbies.delete(ws)
 		}
     });
