@@ -40,7 +40,7 @@ wss.on("connection", (ws) => {
 			offset += strByteLen;
 
 			lobbies.set(ws, [maxPlayers, lobbyName])
-			console.log("Lobby " + lobbyName + " created.");
+			console.log("Client " + ws + " created lobby " + lobbyName + " created.");
 		}
 		
     });
@@ -50,7 +50,7 @@ wss.on("connection", (ws) => {
 
 		if (lobbies.has(ws))
 		{
-			console.log("Lobby " + lobbies.has(ws)[1] + " deleted.");
+			console.log("Clients " + ws + "'s lobby " + lobbies.get(ws)[1] + " has been deleted.");
 			lobbies.delete(ws)
 		}
     });
